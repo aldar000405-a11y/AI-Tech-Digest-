@@ -1,3 +1,7 @@
 node_modules
 .git
 *.log
+.env
+.n8n
+Dockerfile
+.dockerignore
