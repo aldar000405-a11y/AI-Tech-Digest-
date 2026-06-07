@@ -1,20 +1,17 @@
-FROM n8nio/n8n:1.94.1
+FROM node:18-bullseye-slim
 
-USER root
-
-RUN apt-get update -o Acquire::Check-Valid-Until=false \
-    -o Acquire::AllowInsecureRepositories=true \
-    -o APT::Get::AllowUnauthenticated=true \
-    && apt-get install -y --no-install-recommends \
+RUN apt-get update && \
+    apt-get install -y \
     ffmpeg \
     python3 \
     python3-pip \
     curl \
-    && pip3 install edge-tts --break-system-packages \
+    bash \
+    && pip3 install edge-tts \
+    && npm install -g n8n \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && echo "ALL INSTALLED OK"
-
-USER node
+    && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 10000
+
+CMD ["n8n", "start"]
