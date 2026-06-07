@@ -3,15 +3,18 @@ FROM n8nio/n8n:latest
 USER root
 
 RUN apk add --no-cache \
+    ffmpeg \
     python3 \
     py3-pip \
-    ffmpeg
+    curl \
+    bash
 
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+RUN pip3 install edge-tts --break-system-packages
 
-RUN pip install --no-cache-dir edge-tts
-
-ENV N8N_COMMUNITY_PACKAGES_ENABLED=true
+RUN mkdir -p /home/node/.n8n && chown -R node:node /home/node/.n8n
 
 USER node
+
+EXPOSE 5678
+
+CMD ["n8n", "start"]
