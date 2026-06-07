@@ -1,18 +1,23 @@
-FROM n8nio/n8n:2.21.7
+FROM ubuntu:22.04
 
-USER root
+ENV DEBIAN_FRONTEND=noninteractive
+ENV N8N_PORT=10000
+ENV PORT=10000
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
+    curl \
     ffmpeg \
     python3 \
     python3-pip \
-    curl \
-    && pip3 install edge-tts --break-system-packages \
+    && pip3 install edge-tts \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g n8n@2.21.7 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && echo "ALL INSTALLED OK"
-
-USER node
+    && echo "ALL DONE"
 
 EXPOSE 10000
+
+CMD ["n8n", "start"]
