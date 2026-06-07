@@ -2,13 +2,15 @@ FROM n8nio/n8n:2.21.7
 
 USER root
 
-RUN apk add --no-cache \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     ffmpeg \
     python3 \
-    py3-pip \
+    python3-pip \
     curl \
-    bash \
     && pip3 install edge-tts --break-system-packages \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
     && echo "ALL INSTALLED OK"
 
 USER node
