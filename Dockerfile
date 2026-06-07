@@ -1,4 +1,4 @@
-FROM n8nio/n8n:1.99.1-debian
+FROM n8nio/n8n:latest-debian
 
 USER root
 
@@ -9,7 +9,7 @@ RUN apt-get update && \
     python3-pip \
     curl \
     bash && \
-    pip3 install --break-system-packages edge-tts && \
+    pip3 install edge-tts && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
