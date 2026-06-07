@@ -1,15 +1,17 @@
-FROM n8nio/n8n:latest
+FROM n8nio/n8n:1.99.1-debian
 
 USER root
 
-RUN apk update && \
-    apk add --no-cache \
+RUN apt-get update && \
+    apt-get install -y \
     ffmpeg \
     python3 \
-    py3-pip \
+    python3-pip \
     curl \
     bash && \
-    pip3 install --break-system-packages edge-tts
+    pip3 install --break-system-packages edge-tts && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 USER node
 
