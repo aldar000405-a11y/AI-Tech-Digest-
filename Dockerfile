@@ -7,14 +7,10 @@ RUN apk add --no-cache \
     python3 \
     py3-pip \
     curl \
-    bash
-
-RUN pip3 install edge-tts --break-system-packages
-
-RUN mkdir -p /home/node/.n8n && chown -R node:node /home/node/.n8n
+    bash \
+    && pip3 install edge-tts --break-system-packages \
+    && echo "edge-tts installed successfully"
 
 USER node
 
-EXPOSE 5678
-
-CMD ["n8n", "start"]
+EXPOSE 10000
