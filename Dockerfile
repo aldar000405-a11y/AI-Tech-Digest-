@@ -1,26 +1,21 @@
-FROM ubuntu:22.04
+# الحل الأفضل: استخدام الصورة الرسمية مباشرة
+FROM docker.n8n.io/n8nio/n8n:latest
 
-ENV DEBIAN_FRONTEND=noninteractive
+# المتغيرات البيئية
 ENV N8N_PORT=10000
 ENV PORT=10000
 ENV N8N_RUNNERS_ENABLED=false
+ENV N8N_BASIC_AUTH_ACTIVE=true
+ENV N8N_PROTOCOL=https
 
-RUN apt-get update && \
-    apt-get install -y \
-    curl \
-    ffmpeg \
-    python3 \
-    python3-pip \
-    build-essential \
-    g++ \
-    make \
+# تثبيت الأدوات الإضافية التي تحتاجها
+USER root
+RUN apk add --no-cache ffmpeg python3 py3-pip build-base g++ make \
     && pip3 install edge-tts \
-    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g n8n@2.21.7 --ignore-scripts \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && echo "ALL DONE"
+    && apk del build-base g++ make
+
+# العودة لمستخدم node الافتراضي
+USER node
 
 EXPOSE 10000
 
