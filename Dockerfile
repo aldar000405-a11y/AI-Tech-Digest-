@@ -8,11 +8,12 @@ RUN apt-get update && \
     python3 \
     python3-pip \
     curl \
-    bash && \
-    pip3 install edge-tts && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    bash \
+    && pip3 install edge-tts --break-system-packages \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && echo "ALL INSTALLED OK"
 
 USER node
 
-EXPOSE 5678
+EXPOSE 10000
